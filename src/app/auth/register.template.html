@@ -1,0 +1,39 @@
+<br/><br/><br/>
+<div ng-app="MyApp" layout="column" layout-align="center center" layout-fill="layout-fill">
+  <div layout="column" class="loginBox md-whiteframe-z1">
+    <md-toolbar>
+      <h2 class="md-toolbar-tools"><span>Register a new account!</span></h2>
+    </md-toolbar>
+    <md-toolbar class="md-warn" ng-if="$ctrl.error">
+        <div class="md-toolbar-tools" md-padding>
+            <small class="md-flex" ng-bind="$ctrl.errorMessages[$ctrl.error.code]"></small>
+        </div>
+    </md-toolbar>
+    <md-content layout="column" class="md-padding">
+      <md-input-container>
+        <label>Company Name</label>
+        <input type="text" ng-model="$ctrl.user.companyName"/>
+      </md-input-container>
+      <md-input-container>
+        <label>Full Name</label>
+        <input type="text" ng-model="$ctrl.user.displayName"/>
+      </md-input-container>
+      <md-input-container>
+        <label>Email Address</label>
+        <input type="email" ng-model="$ctrl.user.email"/>
+      </md-input-container>
+      <md-input-container>
+        <label>Password</label>
+        <input type="password" ng-model="$ctrl.user.password"/>
+      </md-input-container>
+      <md-input-container>
+        <label>Repeat Password</label>
+        <input type="password" ng-model="$ctrl.user.password_confirm"/>
+      </md-input-container>
+      <div layout="row" layout-align="space-between center" style="padding-top:20px;">
+        <md-button class="md-raised md-primary" ng-click="$ctrl.register()">Register</md-button>
+        <md-button href="" md-no-ink="md-no-ink" ui-sref="login">Login</md-button>
+      </div>
+    </md-content>
+  </div>
+</div>
