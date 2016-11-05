@@ -2,7 +2,7 @@ class AuthController{
     /*@ngInject*/
     constructor(AuthService,$state){
         this.auth = AuthService.auth;
-        // this.$state = $state;
+        this.$state = $state;
     }
 
     $onInit(){
@@ -28,7 +28,13 @@ class AuthController{
         this.auth.$sendPasswordResetEmail(this.user.email).then(()=>this.formSubmitted=true,error=>this.error=error);
     }
     login(){
-        this.auth.$signInWithEmailAndPassword(this.user.email,this.user.password).then(auth=>$state.go('home'),error=>this.error=error);
+        this.auth.$signInWithEmailAndPassword(this.user.email,this.user.password).then(auth=>{
+            if(auth.emailVerified){
+                this.$state.go('dashboard');
+            }else{
+                this.$state.go('verifyEmail');
+            }
+        },error=>this.error=error);
     }
     register(){
         if(this.user.password!==this.user.password_confirm){

@@ -5,10 +5,12 @@ import ngAria from 'angular-aria';
 import uiRouter from 'angular-ui-router';
 
 
-import AuthService from './auth/auth.service';
+import services from './services/services';
 
 import toolbar from "./toolbar/toolbar.component";
 import auth from "./auth/index";
+import dashboard from "./dashboard/index";
+
 
 /*@ngInject*/
 const root = angular.module('my-app', [
@@ -17,7 +19,9 @@ const root = angular.module('my-app', [
     ngAria,
     uiRouter,
     toolbar,
-    auth
+    auth,
+    services,
+    dashboard
 
 ]).config(($locationProvider,$urlRouterProvider,$mdThemingProvider)=>{
     'ngInject';

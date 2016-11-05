@@ -1,0 +1,19 @@
+<br/><br/><br/>
+<div ng-app="MyApp" layout="column" layout-align="center center" layout-fill="layout-fill">
+  <div layout="column" class="loginBox md-whiteframe-z1">
+    <md-toolbar>
+      <h2 class="md-toolbar-tools"><span>Verify your email!</span></h2>
+    </md-toolbar>
+    <md-toolbar class="md-accent" ng-if="$ctrl.clicked">
+        <div class="md-toolbar-tools" md-padding>
+            <small class="md-flex">An email was successfully sent to the address below to verify your account.</small>
+        </div>
+    </md-toolbar>
+    <md-content layout="column" class="md-padding">
+      <p>An email was sent previously to <u>{{$ctrl.user.email}}</u> to verify your email.  Please check your email again and click the link inside. If you would like us to resend the verification email, please click the button below.</p>
+      <div layout="row" layout-align="space-between center" style="padding-top:20px;">
+        <md-button class="md-raised md-primary" ng-click="$ctrl.resendEmail()" ng-disabled="$ctrl.clicked">Resend Email</md-button>
+      </div>
+    </md-content>
+  </div>
+</div>
