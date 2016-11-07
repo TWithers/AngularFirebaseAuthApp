@@ -1,17 +1,14 @@
 import * as firebase from 'firebase';
 class AuthService{
     /*@ngInject*/
-    constructor($firebaseAuth,$state){
+    constructor($firebaseAuth,$state,$q){
+        this.baseAuth = firebase.auth;
         this.auth = $firebaseAuth(firebase.auth());
         this.$state = $state;
+        this.$q=$q;
     }
     requireAuth(){
-        let firebaseUser = this.auth.$getAuth();
-        if (firebaseUser) {
-            return firebaseUser;
-        } else {
-            return this.$state.go('login');
-        }
+        return this.auth.$requireSignIn();
     }
 
 }

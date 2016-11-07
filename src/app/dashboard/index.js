@@ -16,7 +16,7 @@ const dashboard = angular
                 component:'dashboardComponent',
                 resolve:{
                     user:(AuthService)=>{
-                        console.log(AuthService.requireAuth());
+                        // 'ngInject';
                         return AuthService.requireAuth();
                     }
                 }

@@ -2,6 +2,7 @@ class AuthController{
     /*@ngInject*/
     constructor(AuthService,$state){
         this.auth = AuthService.auth;
+        this.baseAuth = AuthService.baseAuth;
         this.$state = $state;
     }
 

@@ -3,6 +3,7 @@ import ngMaterial from 'angular-material';
 import ngAnimate from 'angular-animate';
 import ngAria from 'angular-aria';
 import uiRouter from 'angular-ui-router';
+import uiRouterStateEvents from 'angular-ui-router/release/stateEvents';
 
 
 import services from './services/services';
@@ -21,7 +22,8 @@ const root = angular.module('my-app', [
     toolbar,
     auth,
     services,
-    dashboard
+    dashboard,
+    'ui.router.state.events'
 
 ]).config(($locationProvider,$urlRouterProvider,$mdThemingProvider)=>{
     'ngInject';
@@ -31,6 +33,14 @@ const root = angular.module('my-app', [
         .primaryPalette('blue',{default:'A700'})
         .accentPalette('green')
         .warnPalette('red');
+}).run(($rootScope,$state,AuthService)=>{
+    'ngInject';
+    // AuthService.auth.$onAuthStateChanged(auth=>console.log(auth));
+    $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+        if (error === "AUTH_REQUIRED") {
+            $state.go("login");
+        }
+    });
 })
 .name;
 

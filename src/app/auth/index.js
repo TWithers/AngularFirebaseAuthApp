@@ -36,9 +36,16 @@ const auth = angular
                 component:'verifyEmailComponent',
                 resolve:{
                     user:(AuthService)=>{
-                        'ngInject';
-                        return AuthService.requireAuth();
+                        // 'ngInject';
+                        return AuthService.auth.requireAuth();
                     }
+                }
+            }).state('logout',{
+                url:'/logout',
+                template:'<div>Logout</div>',
+                controller:(AuthService,$state)=>{
+                    // 'ngInject';
+                    AuthService.baseAuth().signOut().then(()=>$state.go('login'));
                 }
             });
             
