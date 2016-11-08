@@ -1,14 +1,32 @@
 <md-toolbar class="md-hue-2">
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+        <md-button class="md-icon-button" aria-label="Settings">
             <md-icon> menu </md-icon>
         </md-button>
         <h2>
             <span>Optic Scheduling</span>
         </h2>
         <span flex></span>
-        <md-button class="md-icon-button" aria-label="User">
-            <md-icon> account_circle </md-icon>
+        <md-menu ng-if="$ctrl.user!==null">
+            <md-button aria-label="User" ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                <md-icon> face </md-icon>
+                {{$ctrl.user.displayName}}
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ui-sref="logout">
+                        <md-icon>directions_walk</md-icon>
+                        Logout
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <md-button aria-label="Register" ng-if="$ctrl.user===null" ui-sref="register">
+            Register
+        </md-button>
+        <md-button aria-label="Login" class="md-raised" ng-if="$ctrl.user===null" ui-sref="login">
+            <md-icon> account_box </md-icon>
+            Login
         </md-button>
     </div>
 </md-toolbar>

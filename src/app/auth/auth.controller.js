@@ -21,33 +21,66 @@ class AuthController{
             "auth/email-already-in-use":"An account already exists with this email. Please try logging in or use Forgot Password.",
             "auth/operation-not-allowed":"Account sign ups are disabled. Please contact the website administrator.",
             "auth/weak-password":"The password is too weak. Please type something more than 6 characters in length.",
+            "auth/argument-error":"One of the fields was not filled out correctly.  Please try again.",
+            "register/password-mismatch":"The passwords do not match. Please correct the mistake and try again."
         };
         this.formSubmitted=false;
     }
 
     forgotPassword(){
-        this.auth.$sendPasswordResetEmail(this.user.email).then(()=>this.formSubmitted=true,error=>this.error=error);
+        try{
+            this.submitting=true;
+            this.auth.$sendPasswordResetEmail(this.user.email).then(()=>this.formSubmitted=true,error=>{
+                this.error=error;
+                this.submitting=false;
+            });
+        }catch(e){
+            this.submitting=false;
+            this.error=e;
+            console.log(e);
+        }
     }
     login(){
-        this.auth.$signInWithEmailAndPassword(this.user.email,this.user.password).then(auth=>{
-            if(auth.emailVerified){
-                this.$state.go('dashboard');
-            }else{
-                this.$state.go('verifyEmail');
-            }
-        },error=>this.error=error);
+        try{
+            this.submitting=true;
+            this.auth.$signInWithEmailAndPassword(this.user.email,this.user.password).then(auth=>{
+                if(auth.emailVerified){
+                    this.$state.go('dashboard');
+                }else{
+                    this.$state.go('verifyEmail');
+                }
+            },error=>{
+                this.error=error;
+                this.submitting=false;
+            });
+        }catch(e){
+            this.submitting=false;
+            this.error=e;
+            console.log(e);
+        }
     }
     register(){
         if(this.user.password!==this.user.password_confirm){
-            return alert('Please make sure passwords match!');
+            this.error={code:'register/password-mismatch'};
+            return false;
         }
-        this.auth.$createUserWithEmailAndPassword(this.user.email,this.user.password).then(user=>{
-            user.updateProfile({
-                displayName:this.user.displayName
+        try{
+            this.submitting=true;
+            this.auth.$createUserWithEmailAndPassword(this.user.email,this.user.password).then(user=>{
+                user.updateProfile({
+                    displayName:this.user.displayName
+                });
+                user.sendEmailVerification();
+                this.login();
+            },error=>{
+                this.error=error;
+                this.submitting=false;
             });
-            user.sendEmailVerification();
-            this.login();
-        },error=>this.error=error);
+        }catch(e){
+            this.submitting=false;
+            this.error=e;
+            console.log(e);
+        }
     }
 
 }
