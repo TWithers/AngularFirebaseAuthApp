@@ -10,7 +10,7 @@
         <md-menu ng-if="$ctrl.user!==null">
             <md-button aria-label="User" ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
                 <md-icon> face </md-icon>
-                {{$ctrl.user.displayName}}
+                {{$ctrl.user.displayName || 'New User'}}
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item>

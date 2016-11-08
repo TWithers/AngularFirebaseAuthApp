@@ -37,7 +37,7 @@ const auth = angular
                 resolve:{
                     user:(AuthService)=>{
                         // 'ngInject';
-                        return AuthService.auth.requireAuth();
+                        return AuthService.requireAuth();
                     }
                 }
             }).state('logout',{

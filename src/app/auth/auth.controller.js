@@ -1,9 +1,11 @@
 class AuthController{
     /*@ngInject*/
-    constructor(AuthService,$state){
+    constructor(AuthService,$state,UserRepository,CompanyRepository){
         this.auth = AuthService.auth;
         this.baseAuth = AuthService.baseAuth;
         this.$state = $state;
+        this.UserRepository = UserRepository;
+        this.CompanyRepository = CompanyRepository;
     }
 
     $onInit(){
@@ -11,7 +13,8 @@ class AuthController{
             email:'',
             password:'',
             displayName:'',
-            password_confirm:''
+            password_confirm:'',
+            companyName:''
         };
         this.errorMessages={
             "auth/invalid-email":"The email address isn't properly formatted.",
@@ -69,9 +72,16 @@ class AuthController{
             this.auth.$createUserWithEmailAndPassword(this.user.email,this.user.password).then(user=>{
                 user.updateProfile({
                     displayName:this.user.displayName
-                });
-                user.sendEmailVerification();
-                this.login();
+                }).then(()=>user.sendEmailVerification().then(()=>{
+                    this.CompanyRepository.createCompany({name:this.user.companyName}).then(id=>{
+                        this.UserRepository.createProfile({
+                            email:this.user.email,
+                            displayName:this.user.displayName,
+                            companyId:id
+                        });
+                    });
+                    this.login();
+                }));
             },error=>{
                 this.error=error;
                 this.submitting=false;

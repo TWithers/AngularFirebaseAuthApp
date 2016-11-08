@@ -1,7 +1,10 @@
 class DashboardController{
+    /*@ngInject*/
+    constructor(CompanyRepository){
+        this.CompanyRepository = CompanyRepository;
+    }
     $onInit(){
-        console.log('test');
-        console.log(this.user);
+        this.CompanyRepository.getCompany().then(data=>this.company = data);
     }
 }
 

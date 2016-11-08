@@ -7,6 +7,7 @@ import uiRouterStateEvents from 'angular-ui-router/release/stateEvents';
 
 
 import services from './services/services';
+import repositories from './repositories/index';
 
 import toolbar from "./toolbar/toolbar.component";
 import auth from "./auth/index";
@@ -23,6 +24,7 @@ const root = angular.module('my-app', [
     auth,
     services,
     dashboard,
+    repositories,
     'ui.router.state.events'
 
 ]).config(($locationProvider,$urlRouterProvider,$mdThemingProvider)=>{

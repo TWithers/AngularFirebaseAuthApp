@@ -5,7 +5,7 @@ class ToolbarController{
     }
     $onInit(){
         this.user = this.auth.$getAuth();
-        this.auth.$onAuthStateChanged(auth=>this.user = auth);
+        this.auth.$onAuthStateChanged(auth=>{console.log(auth);this.user = auth});
     }
     openMenu($mdOpenMenu, ev) {
         let originatorEv = ev;
