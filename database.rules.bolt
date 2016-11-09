@@ -1,0 +1,29 @@
+type User {
+    displayName: String,
+    auth:Number,
+    companyId: String,
+    email: String,
+    createdAt: Number
+}
+
+type Company {
+    name: String,
+    createdAt: Number,
+    members: Any[]
+}
+
+path /user/{id} is User{
+    read() { isSelf(id) || isCompany(this.companyId) }
+    write() { isSelf(id) || isCompanyAdmin(this.companyId)}
+}
+
+path /company/{id} is Company{
+    read() { isSelf(id) || isCompany(id) }
+    write() { isCompanyAdmin(id) }
+}
+
+isSelf(id) { auth.uid === id }
+isCompany(companyId) { root.user[auth.uid].companyId === companyId }
+isCompanyAdmin(companyId) { isCompany(companyId) && root.user[auth.uid].auth === 1 } 
+
+

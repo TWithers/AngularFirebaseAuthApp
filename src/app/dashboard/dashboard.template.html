@@ -1,1 +1,7 @@
-test {{$ctrl.user.displayName}}
+<p>User: {{$ctrl.user.displayName}}</p>
+<p>Company: {{$ctrl.company.name}} </p>
+<p>Employees: </p>
+<ul>
+    <li ng-repeat="e in $ctrl.employees">{{e.displayName}}</li>
+</ul>
+        

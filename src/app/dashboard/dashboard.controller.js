@@ -5,6 +5,7 @@ class DashboardController{
     }
     $onInit(){
         this.CompanyRepository.getCompany().then(data=>this.company = data);
+        this.CompanyRepository.getEmployees().then(data=>this.employees = data);
     }
 }
 

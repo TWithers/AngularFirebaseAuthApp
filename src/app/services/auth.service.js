@@ -1,12 +1,11 @@
 import * as firebase from 'firebase';
 class AuthService{
     /*@ngInject*/
-    constructor($firebaseAuth,$state,$q){
+    constructor($firebaseAuth,$state){
         this.baseAuth = firebase.auth;
         this.baseRef = firebase.database().ref();
         this.auth = $firebaseAuth(firebase.auth());
         this.$state = $state;
-        this.$q=$q;
     }
     requireAuth(){
         return this.auth.$requireSignIn();
@@ -18,7 +17,9 @@ class AuthService{
         }else{
             throw {code:"auth/not-auth",message:"User not authenticated yet."};
         }
-
+    }
+    getTimestamp(){
+        return firebase.database.ServerValue.TIMESTAMP;
     }
 
 }

@@ -1,6 +1,7 @@
 class AuthController{
     /*@ngInject*/
     constructor(AuthService,$state,UserRepository,CompanyRepository){
+        this.AuthService = AuthService;
         this.auth = AuthService.auth;
         this.baseAuth = AuthService.baseAuth;
         this.$state = $state;
@@ -72,16 +73,22 @@ class AuthController{
             this.auth.$createUserWithEmailAndPassword(this.user.email,this.user.password).then(user=>{
                 user.updateProfile({
                     displayName:this.user.displayName
-                }).then(()=>user.sendEmailVerification().then(()=>{
-                    this.CompanyRepository.createCompany({name:this.user.companyName}).then(id=>{
-                        this.UserRepository.createProfile({
-                            email:this.user.email,
-                            displayName:this.user.displayName,
-                            companyId:id
-                        });
+                }).then(()=>{
+                    user.sendEmailVerification();
+                    this.UserRepository.createProfile({
+                        email:this.user.email,
+                        displayName:this.user.displayName,
+                        companyId:user.uid,
+                        createdAt:this.AuthService.getTimestamp(),
+                        auth:1
+                    });
+                    this.CompanyRepository.createCompany({
+                        name:this.user.companyName,
+                        createdAt:this.AuthService.getTimestamp(),
+                        members:[user.uid]
                     });
                     this.login();
-                }));
+                });
             },error=>{
                 this.error=error;
                 this.submitting=false;

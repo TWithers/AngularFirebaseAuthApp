@@ -4,7 +4,7 @@ class UserRepository{
         this.AuthService = AuthService;
         this.$fbObject = $firebaseObject;
         try{
-            this.connect()
+            this.connect();
             this.connected=true;
         }catch(e){
             this.connected=false;
@@ -30,6 +30,9 @@ class UserRepository{
             this.connect();
         }
         return this.profile;
+    }
+    getUser(id){
+        return this.$fbObject(this.AuthService.baseRef.child('user/'+id));
     }
 }
 
